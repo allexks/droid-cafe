@@ -7,6 +7,7 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_main.*
 
 
@@ -71,14 +72,25 @@ class MainActivity : AppCompatActivity() {
     // Helpers
 
     private fun onClickCart(view: View) {
-        val intent = Intent(this, OrderActivity::class.java)
-        intent.putExtra(EXTRA_MESSAGE, mOrderMessage)
-        startActivity(intent)
+        mOrderMessage?.run {
+            navigateToOrders()
+        } ?: run {
+            Snackbar.make(view, "Please select a dessert first!", Snackbar.LENGTH_LONG)
+                .setAction("Action", null)
+                .show()
+        }
     }
 
     private fun displayToast() {
         mOrderMessage?.let { message ->
             Toast.makeText(applicationContext, message, Toast.LENGTH_SHORT).show()
+            navigateToOrders()
         }
+    }
+
+    private fun navigateToOrders() {
+        val intent = Intent(this, OrderActivity::class.java)
+        intent.putExtra(EXTRA_MESSAGE, mOrderMessage)
+        startActivity(intent)
     }
 }
