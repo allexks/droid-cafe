@@ -1,12 +1,15 @@
 package com.example.droidcafe
 
+import android.content.Intent
 import android.os.Bundle
-import com.google.android.material.snackbar.Snackbar
-import androidx.appcompat.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
-
+import android.view.View
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_main.*
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -35,5 +38,37 @@ class MainActivity : AppCompatActivity() {
             R.id.action_settings -> true
             else -> super.onOptionsItemSelected(item)
         }
+    }
+
+    /**
+     * Shows a message that the donut image was clicked.
+     */
+    fun showDonutOrder(view: View) {
+        displayToast(getString(R.string.donut_order_message))
+    }
+
+    /**
+     * Shows a message that the ice cream sandwich image was clicked.
+     */
+    fun showIceCreamOrder(view: View) {
+        displayToast(getString(R.string.ice_cream_order_message))
+    }
+
+    /**
+     * Shows a message that the froyo image was clicked.
+     */
+    fun showFroyoOrder(view: View) {
+        displayToast(getString(R.string.froyo_order_message))
+    }
+
+    fun onClickCart(view: View) {
+        val intent = Intent(this, OrderActivity::class.java)
+        startActivity(intent)
+    }
+
+    // Helpers
+
+    private fun displayToast(message: String) {
+        Toast.makeText(applicationContext, message, Toast.LENGTH_SHORT).show()
     }
 }
