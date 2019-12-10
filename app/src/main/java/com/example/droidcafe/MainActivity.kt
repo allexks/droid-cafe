@@ -7,11 +7,16 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_main.*
 
 
 class MainActivity : AppCompatActivity() {
+
+    companion object {
+        const val EXTRA_MESSAGE = "com.example.droidcafe.extra.MESSAGE"
+    }
+
+    private var mOrderMessage: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,31 +48,37 @@ class MainActivity : AppCompatActivity() {
      * Shows a message that the donut image was clicked.
      */
     fun showDonutOrder(view: View) {
-        displayToast(getString(R.string.donut_order_message))
+        mOrderMessage = getString(R.string.donut_order_message)
+        displayToast()
     }
 
     /**
      * Shows a message that the ice cream sandwich image was clicked.
      */
     fun showIceCreamOrder(view: View) {
-        displayToast(getString(R.string.ice_cream_order_message))
+        mOrderMessage = getString(R.string.ice_cream_order_message)
+        displayToast()
     }
 
     /**
      * Shows a message that the froyo image was clicked.
      */
     fun showFroyoOrder(view: View) {
-        displayToast(getString(R.string.froyo_order_message))
-    }
-
-    fun onClickCart(view: View) {
-        val intent = Intent(this, OrderActivity::class.java)
-        startActivity(intent)
+        mOrderMessage = getString(R.string.froyo_order_message)
+        displayToast()
     }
 
     // Helpers
 
-    private fun displayToast(message: String) {
-        Toast.makeText(applicationContext, message, Toast.LENGTH_SHORT).show()
+    private fun onClickCart(view: View) {
+        val intent = Intent(this, OrderActivity::class.java)
+        intent.putExtra(EXTRA_MESSAGE, mOrderMessage)
+        startActivity(intent)
+    }
+
+    private fun displayToast() {
+        mOrderMessage?.let { message ->
+            Toast.makeText(applicationContext, message, Toast.LENGTH_SHORT).show()
+        }
     }
 }
